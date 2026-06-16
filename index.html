@@ -1,168 +1,347 @@
 
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Charles Oliveira — Interview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  .an-body {
-    --green: #00a878;
-    --green-dark: #007a58;
-    --green-light: #e6f7f2;
-    --ink: #0d1117;
-    --sub: #4a5568;
-    --muted: #718096;
-    --border: rgba(0,0,0,0.09);
+  :root {
+    --accent: #0c9b71;
+    --accent-dark: #06674c;
+    --accent-wash: #eef7f3;
+    --ink: #11181d;
+    --sub: #283036;
+    --muted: #7b8893;
+    --hairline: rgba(17, 24, 29, 0.10);
+    --hairline-soft: rgba(17, 24, 29, 0.06);
     --surface: #ffffff;
-    --page: #f7f9f8;
-    font-family: 'Georgia', 'Times New Roman', serif;
-    background: var(--page);
+    --page: #f4f5f2;
+    --shadow: 0 1px 2px rgba(17,24,29,.04), 0 8px 24px rgba(17,24,29,.05);
+    --shadow-lift: 0 2px 4px rgba(17,24,29,.05), 0 18px 40px rgba(17,24,29,.09);
+    --maxw: 100%;
+    --gutter: 40px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Newsreader', Georgia, serif;
+    background:
+      radial-gradient(1200px 600px at 80% -120px, rgba(12,155,113,.06), transparent 60%),
+      var(--page);
     color: var(--ink);
     line-height: 1.6;
-    padding: 0 0 48px;
-    width: 100%;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    padding-bottom: 72px;
   }
-  .an-body * { box-sizing: border-box; }
 
-  .an-wrap { width: 100%; margin: 0; padding: 0 32px; }
-
-  .an-nav {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background: rgba(255,255,255,0.96);
-    border-bottom: 1px solid var(--border);
-    backdrop-filter: blur(12px);
-    padding: 0 32px;
-    width: 100%;
+  /* ── Scroll progress ───────────────────────────── */
+  .progress-track {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: 3px; z-index: 60;
+    background: transparent;
   }
-  .an-nav-inner {
-    width: 100%; margin: 0;
+  .progress-bar {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--accent-dark), var(--accent));
+    transition: width .08s linear;
+  }
+
+  /* ── Navigation ────────────────────────────────── */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(244, 245, 242, 0.82);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .nav-inner {
+    max-width: var(--maxw); margin: 0 auto;
+    display: flex; align-items: center; gap: 18px;
+    padding: 0 var(--gutter);
+    height: 58px;
+  }
+  .nav-mark {
+    display: flex; align-items: center; gap: 9px;
+    flex-shrink: 0; padding-right: 18px;
+    border-right: 1px solid var(--hairline);
+    height: 26px;
+  }
+  .nav-mark .tick {
+    width: 11px; height: 11px; border-radius: 2px;
+    background: var(--accent);
+    transform: rotate(45deg);
+    box-shadow: 0 0 0 3px var(--accent-wash);
+  }
+  .nav-mark .label {
+    font-family: 'Archivo', sans-serif;
+    font-size: 10px; font-weight: 800;
+    letter-spacing: .18em; text-transform: uppercase;
+    color: var(--ink); white-space: nowrap;
+  }
+  .nav-mark .count {
+    font-family: 'Archivo', sans-serif;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: .06em; color: var(--muted);
+  }
+  .nav-mark .count b { color: var(--accent-dark); font-weight: 800; }
+
+  .nav-list {
     display: flex; gap: 2px;
     overflow-x: auto; scrollbar-width: none;
-    padding: 10px 0;
+    flex: 1; height: 100%;
+    align-items: center;
   }
-  .an-nav-inner::-webkit-scrollbar { display: none; }
-  .an-nav button {
+  .nav-list::-webkit-scrollbar { display: none; }
+  .nav-list button {
+    position: relative;
     flex-shrink: 0;
-    font-family: Arial, sans-serif;
-    font-size: 12px; font-weight: 700;
-    letter-spacing: .04em; text-transform: uppercase;
+    font-family: 'Archivo', sans-serif;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: .05em; text-transform: uppercase;
     color: var(--muted); background: transparent; border: none;
-    padding: 6px 12px; border-radius: 4px; cursor: pointer;
-    white-space: nowrap; transition: color .15s, background .15s;
+    padding: 8px 13px; border-radius: 7px; cursor: pointer;
+    white-space: nowrap;
+    transition: color .18s ease, background .18s ease;
   }
-  .an-nav button:hover { color: var(--green-dark); background: var(--green-light); }
+  .nav-list button::after {
+    content: ''; position: absolute;
+    left: 13px; right: 13px; bottom: 2px; height: 2px;
+    background: var(--accent); border-radius: 2px;
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .22s ease;
+  }
+  .nav-list button:hover { color: var(--ink); background: rgba(17,24,29,.04); }
+  .nav-list button.active { color: var(--ink); }
+  .nav-list button.active::after { transform: scaleX(1); }
 
-  .an-key-card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 12px; margin: 28px 0; overflow: hidden; width: 100%;
+  /* ── Layout shell ──────────────────────────────── */
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
+
+  /* ── Key findings ──────────────────────────────── */
+  .key-card {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 18px;
+    margin: 40px 0 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
   }
-  .an-key-header {
-    display: flex; align-items: center; gap: 10px;
-    padding: 18px 28px; border-bottom: 1px solid var(--border);
+  .key-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 22px 34px;
+    background:
+      linear-gradient(180deg, var(--accent-wash), transparent);
+    border-bottom: 1px solid var(--hairline);
   }
-  .an-key-header-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
-  .an-key-header h3 {
-    font-family: Arial, sans-serif; font-size: 11px; font-weight: 900;
-    letter-spacing: .1em; text-transform: uppercase; color: var(--green-dark);
+  .key-header .bar { width: 3px; height: 22px; border-radius: 3px; background: var(--accent); }
+  .key-header h3 {
+    font-family: 'Archivo', sans-serif;
+    font-size: 12px; font-weight: 900;
+    letter-spacing: .16em; text-transform: uppercase;
+    color: var(--accent-dark);
   }
-  .an-key-list { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); }
-  .an-key-list li {
-    display: flex; gap: 14px; align-items: flex-start;
-    padding: 16px 28px; font-family: Arial, sans-serif;
-    font-size: 14px; line-height: 1.5; color: var(--sub);
-    border-bottom: 1px solid var(--border); border-right: 1px solid var(--border);
+  .key-list { list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); }
+  .key-list li {
+    position: relative;
+    display: flex; gap: 16px; align-items: flex-start;
+    padding: 22px 34px;
+    font-family: 'Archivo', sans-serif;
+    font-size: 15px; font-weight: 500; line-height: 1.6;
+    color: var(--sub);
+    border-bottom: 1px solid var(--hairline-soft);
+    border-right: 1px solid var(--hairline-soft);
   }
-  .an-key-list li:nth-child(even) { border-right: none; }
-  .an-key-list li:nth-last-child(1), .an-key-list li:nth-last-child(2) { border-bottom: none; }
-  .an-key-list li::before {
-    content: ''; flex-shrink: 0; margin-top: 5px;
-    width: 6px; height: 6px; border-radius: 50%; background: var(--green);
+  .key-list li:nth-child(even) { border-right: none; }
+  .key-list li:nth-last-child(1), .key-list li:nth-last-child(2) { border-bottom: none; }
+  .key-list li .num {
+    flex-shrink: 0;
+    font-family: 'Archivo', sans-serif;
+    font-size: 11px; font-weight: 800;
+    letter-spacing: .04em;
+    color: var(--accent);
+    line-height: 1.9;
+    min-width: 18px;
   }
 
-  .an-section { padding: 40px 0 0; scroll-margin-top: 70px; width: 100%; }
-  .an-eyebrow {
-    font-family: Arial, sans-serif; font-size: 10px; font-weight: 900;
-    letter-spacing: .14em; text-transform: uppercase; color: var(--green); margin-bottom: 8px;
+  /* ── Sections ──────────────────────────────────── */
+  .section { padding: 56px 0 0; scroll-margin-top: 78px; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'Archivo', sans-serif;
+    font-size: 10.5px; font-weight: 800;
+    letter-spacing: .18em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 12px;
   }
-  .an-section-title {
-    font-size: clamp(22px, 3vw, 30px); font-weight: 700; line-height: 1.2;
-    letter-spacing: -.025em; color: var(--ink); margin-bottom: 24px;
-    border-bottom: 2px solid var(--green); padding-bottom: 16px;
+  .eyebrow::before { content: ''; width: 20px; height: 1.5px; background: var(--accent); }
+  .section-title {
+    font-family: 'Archivo', sans-serif;
+    font-size: clamp(24px, 3.4vw, 36px); font-weight: 800; line-height: 1.12;
+    letter-spacing: -.025em; color: var(--ink); margin-bottom: 26px;
+  }
+  .section-title .rule {
+    display: block; width: 56px; height: 3px; border-radius: 3px;
+    background: var(--accent); margin-top: 18px;
   }
 
-  .an-qa-list { display: grid; gap: 10px; width: 100%; }
-  .an-qa {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 10px; overflow: hidden; scroll-margin-top: 70px; width: 100%;
+  /* ── Q&A ───────────────────────────────────────── */
+  .qa-list { display: grid; gap: 14px; }
+  .qa {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 16px;
+    overflow: hidden;
+    scroll-margin-top: 78px;
+    box-shadow: var(--shadow);
+    transition: box-shadow .22s ease, transform .22s ease, border-color .22s ease;
   }
-  .an-qa-q {
-    display: flex; align-items: flex-start; gap: 12px;
-    padding: 18px 28px; background: var(--green-light); border-bottom: 1px solid var(--border);
+  .qa:hover { box-shadow: var(--shadow-lift); transform: translateY(-2px); border-color: rgba(12,155,113,.30); }
+  .qa-q {
+    display: flex; align-items: flex-start; gap: 15px;
+    padding: 22px 30px;
+    border-bottom: 1px solid var(--hairline-soft);
   }
-  .an-q-badge {
-    flex-shrink: 0; background: var(--ink); color: #fff;
-    font-family: Arial, sans-serif; font-size: 10px; font-weight: 900;
-    letter-spacing: .06em; padding: 4px 9px; border-radius: 3px; margin-top: 1px;
+  .q-badge {
+    flex-shrink: 0; margin-top: 2px;
+    width: 30px; height: 30px; border-radius: 9px;
+    display: grid; place-items: center;
+    background: var(--ink); color: #fff;
+    font-family: 'Archivo', sans-serif;
+    font-size: 12px; font-weight: 900;
   }
-  .an-q-text {
-    font-family: Arial, sans-serif; font-size: 16px; font-weight: 700;
+  .q-text {
+    font-family: 'Archivo', sans-serif;
+    font-size: 17px; font-weight: 700;
     color: var(--ink); line-height: 1.4; flex: 1;
+    padding-top: 3px;
+    letter-spacing: -.01em;
   }
-  .an-answer { padding: 22px 28px 24px; }
-  .an-answer p {
-    font-family: Georgia, 'Times New Roman', serif; font-size: 16px;
-    line-height: 1.75; color: var(--sub); margin-bottom: 15px; font-style: italic;
+  .answer { padding: 26px 30px 30px 75px; }
+  .answer p {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 19px; font-weight: 400;
+    line-height: 1.82; color: var(--sub);
+    margin-bottom: 18px; font-style: italic;
+    max-width: 68ch;
+    letter-spacing: .003em;
   }
-  .an-answer p:last-child { margin-bottom: 0; }
+  .answer p:first-child { position: relative; }
+  .answer p:first-child::before {
+    content: ''; position: absolute;
+    left: -27px; top: 4px; width: 3px; height: calc(100% - 6px);
+    background: var(--accent); border-radius: 3px;
+    opacity: .35;
+  }
+  .answer p:last-child { margin-bottom: 0; }
 
-  @media (max-width: 680px) {
-    .an-wrap, .an-nav { padding-left: 18px; padding-right: 18px; }
-    .an-key-list { grid-template-columns: 1fr; }
-    .an-key-list li { border-right: none; }
-    .an-key-list li:nth-last-child(2) { border-bottom: 1px solid var(--border); }
-    .an-key-header, .an-qa-q, .an-answer { padding-left: 18px; padding-right: 18px; }
+  /* ── Reveal on scroll ──────────────────────────── */
+  .reveal { opacity: 0; transform: translateY(16px); transition: opacity .55s ease, transform .55s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* ── Responsive ────────────────────────────────── */
+  @media (max-width: 760px) {
+    .wrap, .nav-inner { padding-left: 18px; padding-right: 18px; }
+    .nav-mark .label { display: none; }
+    .key-list { grid-template-columns: 1fr; }
+    .key-list li { border-right: none; }
+    .key-list li:nth-last-child(2) { border-bottom: 1px solid var(--hairline-soft); }
+    .key-header, .key-list li, .qa-q { padding-left: 20px; padding-right: 20px; }
+    .answer { padding: 22px 20px 24px 24px; }
+    .answer p:first-child::before { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .qa { transition: none; }
+    .to-top { transition: opacity .2s ease; }
+  }
+
+  /* ── Back to top ───────────────────────────────── */
+  .to-top {
+    position: fixed;
+    right: 26px; bottom: 26px;
+    z-index: 55;
+    width: 46px; height: 46px;
+    display: grid; place-items: center;
+    border: 1px solid var(--hairline);
+    border-radius: 50%;
+    background: var(--surface);
+    color: var(--accent-dark);
+    cursor: pointer;
+    box-shadow: var(--shadow-lift);
+    opacity: 0; visibility: hidden;
+    transform: translateY(12px) scale(.92);
+    transition: opacity .28s ease, transform .28s ease, visibility .28s, background .2s ease, color .2s ease;
+  }
+  .to-top.show { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+  .to-top:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .to-top:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .to-top svg { width: 19px; height: 19px; display: block; }
+
+  @media (max-width: 760px) {
+    .to-top { right: 16px; bottom: 16px; width: 44px; height: 44px; }
   }
 </style>
+</head>
+<body>
 
-<div class="an-body">
-  <nav class="an-nav" aria-label="Interview topics">
-    <div class="an-nav-inner">
-      <button onclick="document.getElementById('key-findings').scrollIntoView({behavior:'smooth',block:'start'})">Key Findings</button>
-      <button onclick="document.getElementById('gaethje-rematch').scrollIntoView({behavior:'smooth',block:'start'})">Gaethje Rematch</button>
-      <button onclick="document.getElementById('topuria-fallout').scrollIntoView({behavior:'smooth',block:'start'})">Topuria Fallout</button>
-      <button onclick="document.getElementById('title-picture').scrollIntoView({behavior:'smooth',block:'start'})">Title Picture</button>
-      <button onclick="document.getElementById('white-house-card').scrollIntoView({behavior:'smooth',block:'start'})">White House Card</button>
-      <button onclick="document.getElementById('conor-paddy-boxing').scrollIntoView({behavior:'smooth',block:'start'})">Conor, Paddy &amp; Boxing</button>
-      <button onclick="document.getElementById('brazil-football').scrollIntoView({behavior:'smooth',block:'start'})">Brazil Football</button>
+  <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+
+  <nav class="nav" aria-label="Interview topics">
+    <div class="nav-inner">
+      <div class="nav-mark">
+        <span class="tick" aria-hidden="true"></span>
+        <span class="label">In this interview</span>
+        <span class="count" id="navCount"><b>01</b> / 07</span>
+      </div>
+      <div class="nav-list" id="navList">
+        <button data-target="key-findings">Key Findings</button>
+        <button data-target="gaethje-rematch">Gaethje Rematch</button>
+        <button data-target="topuria-fallout">Topuria Fallout</button>
+        <button data-target="title-picture">Title Picture</button>
+        <button data-target="white-house-card">White House Card</button>
+        <button data-target="conor-paddy-boxing">Conor, Paddy &amp; Boxing</button>
+        <button data-target="brazil-football">Brazil Football</button>
+      </div>
     </div>
   </nav>
 
-  <div class="an-wrap">
+  <div class="wrap">
 
-    <section id="key-findings" style="scroll-margin-top:70px; padding-top:28px;">
-      <div class="an-key-card">
-        <div class="an-key-header">
-          <div class="an-key-header-dot"></div>
+    <section id="key-findings" style="scroll-margin-top:78px;">
+      <div class="key-card reveal">
+        <div class="key-header">
+          <span class="bar" aria-hidden="true"></span>
           <h3>Key Findings</h3>
         </div>
-        <ul class="an-key-list">
-          <li>Charles Oliveira says he believes he is next in line for a title shot and would be ready wherever the belt is.</li>
-          <li>Oliveira says Justin Gaethje's heart, determination and self-belief won him the fight against Ilia Topuria.</li>
-          <li>Oliveira calls Gaethje's win one of the biggest upsets in UFC history and says anyone who backed him "cleaned up."</li>
-          <li>Oliveira does not believe Topuria quit and says the fight was stopped at exactly the right moment.</li>
-          <li>On Conor McGregor vs. Max Holloway, Oliveira says the first round will tell a lot, with the later rounds tending to favor Holloway.</li>
-          <li>Oliveira says Brazil needs more hunger on the pitch and suggests Casemiro could make a good fighter.</li>
+        <ul class="key-list">
+          <li><span class="num">01</span><span>Charles Oliveira says he believes he is next in line for a title shot and would be ready wherever the belt is.</span></li>
+          <li><span class="num">02</span><span>Oliveira says Justin Gaethje's heart, determination and self-belief won him the fight against Ilia Topuria.</span></li>
+          <li><span class="num">03</span><span>Oliveira calls Gaethje's win one of the biggest upsets in UFC history and says anyone who backed him "cleaned up."</span></li>
+          <li><span class="num">04</span><span>Oliveira does not believe Topuria quit and says the fight was stopped at exactly the right moment.</span></li>
+          <li><span class="num">05</span><span>On Conor McGregor vs. Max Holloway, Oliveira says the first round will tell a lot, with the later rounds tending to favor Holloway.</span></li>
+          <li><span class="num">06</span><span>Oliveira says Brazil needs more hunger on the pitch and suggests Casemiro could make a good fighter.</span></li>
         </ul>
       </div>
     </section>
 
-    <section id="gaethje-rematch" class="an-section">
-      <div class="an-eyebrow">Title Race</div>
-      <h2 class="an-section-title">Oliveira says he is next in line for Gaethje</h2>
-      <div class="an-qa-list">
-        <div id="q01" class="an-qa">
-          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">Do you want a rematch with Justin?</span></div>
-          <div class="an-answer">
+    <section id="gaethje-rematch" class="section">
+      <div class="reveal">
+        <div class="eyebrow">Title Race</div>
+        <h2 class="section-title">Oliveira says he is next in line for Gaethje<span class="rule" aria-hidden="true"></span></h2>
+      </div>
+      <div class="qa-list">
+        <div id="q01" class="qa reveal">
+          <div class="qa-q"><span class="q-badge">Q</span><span class="q-text">Do you want a rematch with Justin?</span></div>
+          <div class="answer">
             <p>I don't think Justin is going to ask for a rematch. He's operating at a different level now as champion. But I'm right there in the queue to be the next title challenger. So why not make that fight?</p>
             <p>To be completely honest, the last few times I spoke with Diego I kept saying that we needed to wait until after this White House event to understand what the next step would be.</p>
             <p>If Topuria won, whether he would move up a division or stay where he was. If Gaethje won, what would happen then? So that's what we did: we stopped and waited.</p>
@@ -176,13 +355,15 @@
       </div>
     </section>
 
-    <section id="topuria-fallout" class="an-section">
-      <div class="an-eyebrow">Main Event Fallout</div>
-      <h2 class="an-section-title">Gaethje's heart and pressure changed the fight</h2>
-      <div class="an-qa-list">
-        <div id="q02" class="an-qa">
-          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">How did you see Topuria vs. Gaethje?</span></div>
-          <div class="an-answer">
+    <section id="topuria-fallout" class="section">
+      <div class="reveal">
+        <div class="eyebrow">Main Event Fallout</div>
+        <h2 class="section-title">Gaethje's heart and pressure changed the fight<span class="rule" aria-hidden="true"></span></h2>
+      </div>
+      <div class="qa-list">
+        <div id="q02" class="qa reveal">
+          <div class="qa-q"><span class="q-badge">Q</span><span class="q-text">How did you see Topuria vs. Gaethje?</span></div>
+          <div class="answer">
             <p>How many times have we seen fighters who were massive favorites to win, and then one punch, one takedown or one submission changes everything?</p>
             <p>I picked Topuria as well. I thought he could come in and get the knockout, but I kept telling everyone that Gaethje was a dangerous guy.</p>
             <p>He's a fighter who lands shots, likes dirty fighting, likes clinching, taking people down, controlling the head and applying pressure. It's an awkward style to deal with, and it worked.</p>
@@ -191,75 +372,77 @@
             <p>He put on one hell of a performance and showed the world what MMA truly is. There are no guarantees. Once that cage door closes, nobody knows who's going to win until the hand gets raised. It was an incredible fight.</p>
           </div>
         </div>
-        <div id="q03" class="an-qa">
-          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">Would you say it was one of the biggest upsets in UFC history?</span></div>
-          <div class="an-answer">
+        <div id="q03" class="qa reveal">
+          <div class="qa-q"><span class="q-badge">Q</span><span class="q-text">Would you say it was one of the biggest upsets in UFC history?</span></div>
+          <div class="answer">
             <p>Was it the biggest upset in history? I think so. For everything surrounding it. The betting odds alone. Anyone who backed Gaethje cleaned up. I lost money on it myself. I had a bet with my cousin and lost.</p>
             <p>The people who backed Gaethje made a lot of money. When all the hype around the UFC at the White House started, I honestly thought they'd stack the card with elite American fighters like Gaethje, the sort of guys who walk out with the flag and are passionate about representing the United States.</p>
             <p>When the card started taking shape, I remember thinking: "Which American is actually going to win tonight?" So things looked a bit complicated from that point on. But Gaethje went out there, shocked everyone, made history and, I think, made every American fan happy with a main event like that.</p>
             <p>Sometimes the styles just don't match up, brother. Sometimes they do. But then the other bloke has a bigger heart than you. And there's nothing you can do about that.</p>
           </div>
         </div>
-        <div id="q04" class="an-qa">
-          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">What did you make of Ilia's strategy?</span></div>
-          <div class="an-answer">
+        <div id="q04" class="qa reveal">
+          <div class="qa-q"><span class="q-badge">Q</span><span class="q-text">What did you make of Ilia's strategy?</span></div>
+          <div class="answer">
             <p>I'll use myself as an example so nobody takes a clip out of context later. I've fought him. I stood there waiting because I believed my shot would land.</p>
             <p>There are days like that. Sometimes you put together a game plan and it doesn't work. What can you do? It's done. It's over. You have to do what I did: bounce back and come back better.</p>
             <p>When he started getting very defensive, I thought: "What's this strategy about?" But he was looking for that one shot. And if it lands, it's over.</p>
             <p>He landed a huge punch that made Gaethje fold and hit the canvas. But Gaethje's heart was bigger. Topuria lost and Gaethje won. That's the reality of it.</p>
           </div>
         </div>
-        <div id="q05" class="an-qa">
-          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">Some people said he quit. Did you see it that way?</span></div>
-          <div class="an-answer">
+        <div id="q05" class="qa reveal">
+          <div class="qa-q"><span class="q-badge">Q</span><span class="q-text">Some people said he quit. Did you see it that way?</span></div>
+          <div class="answer">
             <p>Did Ilia quit? Not really. If you watch it back, when he sat down his team wanted to stop the fight and he didn't. The team basically respected what he wanted and let him carry on.</p>
             <p>Then the doctor came in toward the end and wanted to stop it. They spoke about it and allowed him to continue.</p>
             <p>For me, the fight was stopped at exactly the right moment. There was nothing left for him to do. He wasn't getting going anymore. He was badly hurt. If he'd gone back out, it probably would have carried on the same way.</p>
             <p>To be honest, people are never satisfied. There's always someone who wants to say something to jump on the hype train or stir things up. But that's MMA. There will always be someone criticizing or trying to add fuel to the fire. That's part of the game.</p>
           </div>
         </div>
-        <div id="q06" class="an-qa">
-          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">What won Justin the fight?</span></div>
-          <div class="an-answer">
+        <div id="q06" class="qa reveal">
+          <div class="qa-q"><span class="q-badge">Q</span><span class="q-text">What won Justin the fight?</span></div>
+          <div class="answer">
             <p>What won Justin the fight? Heart. No doubt about it. Heart, determination, the desire to become champion and win. If you look at it from the other side, everything was against him. The whole world was against him. Everyone was betting against him.</p>
             <p>The guy believed in himself. He never gave up from start to finish. He beat a very tough opponent and got the win. His team kept telling him from the beginning: stay focused.</p>
             <p>And if you watch from the second to the third round, his corner kept telling him to move forward. He got hit hard, clinched, got the takedown and did exactly what he'd trained to do. He never quit. Fair play to him.</p>
           </div>
         </div>
-        <div id="q07" class="an-qa">
-          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">Do you think the period away from competition, as well as the personal issues, could have affected Topuria?</span></div>
-          <div class="an-answer">
+        <div id="q07" class="qa reveal">
+          <div class="qa-q"><span class="q-badge">Q</span><span class="q-text">Do you think the period away from competition, as well as the personal issues, could have affected Topuria?</span></div>
+          <div class="answer">
             <p>People always say that when you spend a long time without fighting, you come back different. Me, Charles, I don't like being away from competition for too long.</p>
             <p>I feel like I lose a bit of my timing. When I was able to compete in jiu-jitsu tournaments, I stayed in that competitive rhythm.</p>
             <p>But it depends on the person. I don't know what his situation was. It's difficult to talk about what happened behind the scenes.</p>
             <p>What we can say is that unfortunately it wasn't his day. It was Gaethje's day. He put on a great performance and earned a great win.</p>
           </div>
         </div>
-        <div id="q08" class="an-qa">
-          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">Would you have any message for Topuria right now?</span></div>
-          <div class="an-answer">
+        <div id="q08" class="qa reveal">
+          <div class="qa-q"><span class="q-badge">Q</span><span class="q-text">Would you have any message for Topuria right now?</span></div>
+          <div class="answer">
             <p>He himself said something that's true. A lot of fighters lose and then drop their heads. I did the opposite.</p>
             <p>When I lost to him, I went home and wanted to stay close to my family. Because a lot of people will hug you, but at the same time they're mocking you and talking nonsense online.</p>
             <p>I stayed close to the people who genuinely love me. I focused on training, correcting my mistakes, demanding more from myself and coming back better.</p>
             <p>I'm coming off two straight wins now. So if I could say anything to him, it would be this: stay close to your family and the people who love you. When you're ready, come back. But come back better, fixing your mistakes and chasing new victories.</p>
           </div>
         </div>
-        <div id="q09" class="an-qa">
-          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">Do you think this defeat affects his image? Has he lost that untouchable aura?</span></div>
-          <div class="an-answer">
+        <div id="q09" class="qa reveal">
+          <div class="qa-q"><span class="q-badge">Q</span><span class="q-text">Do you think this defeat affects his image? Has he lost that untouchable aura?</span></div>
+          <div class="answer">
             <p>When you're unbeaten, talking and winning, you build massive hype around yourself. When you lose, people definitely don't respect you in quite the same way they did before. A lot will depend on how he comes back. His next fight will say a lot about who he really is.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="title-picture" class="an-section">
-      <div class="an-eyebrow">Lightweight Picture</div>
-      <h2 class="an-section-title">Tsarukyan matchup viewed as another difficult test</h2>
-      <div class="an-qa-list">
-        <div id="q10" class="an-qa">
-          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">If Gaethje fights Tsarukyan, do you think he can win that one as well?</span></div>
-          <div class="an-answer">
+    <section id="title-picture" class="section">
+      <div class="reveal">
+        <div class="eyebrow">Lightweight Picture</div>
+        <h2 class="section-title">Tsarukyan matchup viewed as another difficult test<span class="rule" aria-hidden="true"></span></h2>
+      </div>
+      <div class="qa-list">
+        <div id="q10" class="qa reveal">
+          <div class="qa-q"><span class="q-badge">Q</span><span class="q-text">If Gaethje fights Tsarukyan, do you think he can win that one as well?</span></div>
+          <div class="answer">
             <p>It's MMA. For me, it's a difficult fight for him because Tsarukyan does exactly the kind of thing that disrupts his game: takedowns, clinching and controlling the fight.</p>
             <p>But Gaethje has incredibly heavy hands. If he lands, he can knock anyone out.</p>
             <p>In my view it's a tough fight because Tsarukyan uses that style of grappling, getting takedowns and controlling positions. It's an awkward style to deal with.</p>
@@ -272,13 +455,15 @@
       </div>
     </section>
 
-    <section id="white-house-card" class="an-section">
-      <div class="an-eyebrow">White House Card</div>
-      <h2 class="an-section-title">Hokit, Poatan, Gane and Ruffy assessed</h2>
-      <div class="an-qa-list">
-        <div id="q11" class="an-qa">
-          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">What did you think about Josh Hokit?</span></div>
-          <div class="an-answer">
+    <section id="white-house-card" class="section">
+      <div class="reveal">
+        <div class="eyebrow">White House Card</div>
+        <h2 class="section-title">Hokit, Poatan, Gane and Ruffy assessed<span class="rule" aria-hidden="true"></span></h2>
+      </div>
+      <div class="qa-list">
+        <div id="q11" class="qa reveal">
+          <div class="qa-q"><span class="q-badge">Q</span><span class="q-text">What did you think about Josh Hokit?</span></div>
+          <div class="answer">
             <p>Josh Hokit? He's a crazy character. Whether you like it or not, you have to give him credit for coming off two knockouts and two big wins.</p>
             <p>For me, he's a really crazy character. You saw it. He went over there, jumped around, spoke to Trump and then started talking a load of nonsense.</p>
             <p>He called out Poatan. He talked about Michelle Obama. I didn't really understand exactly what he was saying.</p>
@@ -288,9 +473,9 @@
             <p>Smart, landing shots, doing what everyone thought was the safest route: taking Derrick Lewis down, smothering him and making him tire out.</p>
           </div>
         </div>
-        <div id="q12" class="an-qa">
-          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">Thoughts on Poatan at heavyweight?</span></div>
-          <div class="an-answer">
+        <div id="q12" class="qa reveal">
+          <div class="qa-q"><span class="q-badge">Q</span><span class="q-text">Thoughts on Poatan at heavyweight?</span></div>
+          <div class="answer">
             <p>I think all we can do is applaud him. He fought an incredibly tough opponent in Gane. A guy who moves well, lands well, gets takedowns and uses his movement brilliantly.</p>
             <p>If you look at the first round, Poatan ate a lot of jabs. But that was part of the fight. He was there trying to find the timing. And if he'd found the right moment on the exit, he could have landed the knockout.</p>
             <p>My feeling was disappointment, yes. Because it would have been another belt for Brazil, another great story for Brazil and for Poatan's whole team. But that's MMA.</p>
@@ -300,18 +485,18 @@
             <p>For me, there's still a lot left for him to do. He beats a lot of people in that division and we all know it's a division with relatively few fighters. One win, given the name he has, puts him right back into title contention.</p>
           </div>
         </div>
-        <div id="q13" class="an-qa">
-          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">There was some criticism of Gane because a few punches looked like they landed to the back of the head. Did you notice anything like that?</span></div>
-          <div class="an-answer">
+        <div id="q13" class="qa reveal">
+          <div class="qa-q"><span class="q-badge">Q</span><span class="q-text">There was some criticism of Gane because a few punches looked like they landed to the back of the head. Did you notice anything like that?</span></div>
+          <div class="answer">
             <p>When we're in there, in the heat of the fight, full of adrenaline, trying to get the knockout and win, things happen very quickly.</p>
             <p>And I think the person best placed to judge that is the referee. He's right there to see whether shots are landing to the back of the head or not.</p>
             <p>From my point of view, it wasn't something that decided the fight. Maybe one or two punches clipped the back of the head, but that wasn't what determined the outcome.</p>
             <p>What determined it was the sequence of strikes that Gane managed to land. And Poatan, with the heart of a lion, kept getting up and trading until he was eventually beaten.</p>
           </div>
         </div>
-        <div id="q14" class="an-qa">
-          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">Thoughts on Ruffy?</span></div>
-          <div class="an-answer">
+        <div id="q14" class="qa reveal">
+          <div class="qa-q"><span class="q-badge">Q</span><span class="q-text">Thoughts on Ruffy?</span></div>
+          <div class="answer">
             <p>Ruffy is an artist. A true martial artist. He lands his hands really well and has a very polished game. He knew exactly what he had to do to go in there and win convincingly.</p>
             <p>He was just waiting for the right moment. He went in, fought, didn't get hurt and made it look easy. Fair play to him. There's nothing to criticize. Sometimes you're in a hard fight and you have to dig deep. Sometimes a fight looks easy.</p>
             <p>And that's what he did, he made it look easy. What can you say? He didn't need to throw loads of strikes. He landed the strikes he needed to land and did exactly what was required.</p>
@@ -322,13 +507,15 @@
       </div>
     </section>
 
-    <section id="conor-paddy-boxing" class="an-section">
-      <div class="an-eyebrow">Combat Sports</div>
-      <h2 class="an-section-title">Oliveira weighs Conor vs. Max, Paddy and Joshua-Fury</h2>
-      <div class="an-qa-list">
-        <div id="q15" class="an-qa">
-          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">Who would you favor — Conor or Max?</span></div>
-          <div class="an-answer">
+    <section id="conor-paddy-boxing" class="section">
+      <div class="reveal">
+        <div class="eyebrow">Combat Sports</div>
+        <h2 class="section-title">Oliveira weighs Conor vs. Max, Paddy and Joshua-Fury<span class="rule" aria-hidden="true"></span></h2>
+      </div>
+      <div class="qa-list">
+        <div id="q15" class="qa reveal">
+          <div class="qa-q"><span class="q-badge">Q</span><span class="q-text">Who would you favor — Conor or Max?</span></div>
+          <div class="answer">
             <p>Max is a guy who's been going five rounds in his recent fights. He handles five rounds very well. Conor has been inactive for a long time.</p>
             <p>He actually asked for the fight to be three rounds and he picked the opponent. Because, in reality, everyone knows that fight was supposed to be against me, but he chose the opponent.</p>
             <p>That's part of the game. You've got to choose what you think is best for you. The fight is going to be at 77 kilos. Honestly, I think the first round will tell us a lot.</p>
@@ -339,16 +526,16 @@
             <p>I've never had the chance to spend time around him and find out whether he's genuinely a good guy or whether it's all just a character. Because a lot of people say he's actually a good person. So the only thing I don't like is the way he sells a fight. Apart from that, for me, he's 100%.</p>
           </div>
         </div>
-        <div id="q16" class="an-qa">
-          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">Paddy Pimblett vs Saint-Denis?</span></div>
-          <div class="an-answer">
+        <div id="q16" class="qa reveal">
+          <div class="qa-q"><span class="q-badge">Q</span><span class="q-text">Paddy Pimblett vs Saint-Denis?</span></div>
+          <div class="answer">
             <p>If you look at their recent fights, I think Saint-Denis has a much better chance of winning. He's got good striking, very good grappling and better movement.</p>
             <p>But it's MMA. A lot of people say, "Charles, you're sitting on the fence." That's not it. But for me, Benoit has the better chance of winning.</p>
           </div>
         </div>
-        <div id="q17" class="an-qa">
-          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">If Dana put together a fight between Anthony Joshua and Tyson Fury, how do you think it would be received?</span></div>
-          <div class="an-answer">
+        <div id="q17" class="qa reveal">
+          <div class="qa-q"><span class="q-badge">Q</span><span class="q-text">If Dana put together a fight between Anthony Joshua and Tyson Fury, how do you think it would be received?</span></div>
+          <div class="answer">
             <p>A fight between monsters. A fight between giants. Everything Dana White touches becomes something huge, something worth billions.</p>
             <p>You've just seen the White House event. Who would ever have imagined that something like that would happen one day? But it happened.</p>
             <p>Trump had already been appearing at several events before that. That's very good for all of us who are part of the organization. And if that fight happens, it would be absolutely massive.</p>
@@ -358,13 +545,15 @@
       </div>
     </section>
 
-    <section id="brazil-football" class="an-section">
-      <div class="an-eyebrow">Brazil Football</div>
-      <h2 class="an-section-title">Oliveira calls for more hunger from Brazil</h2>
-      <div class="an-qa-list">
-        <div id="q18" class="an-qa">
-          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">What's your assessment of Brazil so far?</span></div>
-          <div class="an-answer">
+    <section id="brazil-football" class="section">
+      <div class="reveal">
+        <div class="eyebrow">Brazil Football</div>
+        <h2 class="section-title">Oliveira calls for more hunger from Brazil<span class="rule" aria-hidden="true"></span></h2>
+      </div>
+      <div class="qa-list">
+        <div id="q18" class="qa reveal">
+          <div class="qa-q"><span class="q-badge">Q</span><span class="q-text">What's your assessment of Brazil so far?</span></div>
+          <div class="answer">
             <p>People watching from the outside always think it's easier to talk than it is for the people actually living through it on the pitch. But from what we saw, I think there was a lack of a bit more hunger.</p>
             <p>I see it this way: when you go into a favela and ask a kid what he wants to be, he says he wants to be a footballer.</p>
             <p>But he never says he wants to be some unknown player. He says he wants to be Neymar, Cristiano Ronaldo or Messi.</p>
@@ -372,9 +561,9 @@
             <p>And only 26 were selected. Those 26 carry the country's flag on their shoulders. I think there was little lack of spirit and we need a little more hunger, a little more willingness to fight for every ball.</p>
           </div>
         </div>
-        <div id="q19" class="an-qa">
-          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">Which player from this squad do you think could make a good fighter?</span></div>
-          <div class="an-answer">
+        <div id="q19" class="qa reveal">
+          <div class="qa-q"><span class="q-badge">Q</span><span class="q-text">Which player from this squad do you think could make a good fighter?</span></div>
+          <div class="answer">
             <p>Which player from this squad do you think could make a good fighter? Maybe Casemiro. He's tall, he's strong and when he's needed, he's always there.</p>
             <p>Vinícius Júnior as well. Whenever there's a challenge, a confrontation or a bit of chaos, he gets involved and stands his ground. But I think Casemiro would be a good shout. He's a tall, strong guy.</p>
           </div>
@@ -383,4 +572,85 @@
     </section>
 
   </div>
-</div>
+
+  <button class="to-top" id="toTop" aria-label="Back to top" title="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 19V5"></path><path d="M5 12l7-7 7 7"></path>
+    </svg>
+  </button>
+
+<script>
+  (function () {
+    var sections = ['key-findings','gaethje-rematch','topuria-fallout','title-picture','white-house-card','conor-paddy-boxing','brazil-football'];
+    var buttons = Array.prototype.slice.call(document.querySelectorAll('#navList button'));
+    var navCount = document.getElementById('navCount');
+    var progressBar = document.getElementById('progressBar');
+    var navEl = document.querySelector('.nav');
+    var toTop = document.getElementById('toTop');
+
+    if (toTop) {
+      toTop.addEventListener('click', function () {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+
+    // Smooth scroll on click
+    buttons.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var el = document.getElementById(btn.dataset.target);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    function setActive(id) {
+      var idx = sections.indexOf(id);
+      buttons.forEach(function (b) { b.classList.toggle('active', b.dataset.target === id); });
+      if (idx > -1 && navCount) {
+        navCount.innerHTML = '<b>' + String(idx + 1).padStart(2, '0') + '</b> / 07';
+        // keep active chip in view on mobile
+        var active = buttons[idx];
+        if (active) active.scrollIntoView({ block: 'nearest', inline: 'center' });
+      }
+    }
+
+    // Scroll-spy
+    var navH = 78;
+    function onScroll() {
+      var pos = window.scrollY + navH + 40;
+      var current = sections[0];
+      for (var i = 0; i < sections.length; i++) {
+        var el = document.getElementById(sections[i]);
+        if (el && el.offsetTop <= pos) current = sections[i];
+      }
+      setActive(current);
+
+      // progress
+      var h = document.documentElement;
+      var scrolled = (h.scrollTop || document.body.scrollTop);
+      var height = h.scrollHeight - h.clientHeight;
+      progressBar.style.width = (height > 0 ? (scrolled / height) * 100 : 0) + '%';
+
+      // back-to-top visibility
+      if (toTop) toTop.classList.toggle('show', scrolled > 420);
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    onScroll();
+
+    // Reveal on scroll
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce && 'IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+      document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+    } else {
+      document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+    }
+  })();
+</script>
+</body>
+</html>
