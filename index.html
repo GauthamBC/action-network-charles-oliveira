@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -292,6 +291,8 @@
 </style>
 </head>
 <body>
+
+  <span id="topSentinel" aria-hidden="true" style="position:absolute;top:0;left:0;width:1px;height:1px;"></span>
 
   <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
 
@@ -587,11 +588,32 @@
     var progressBar = document.getElementById('progressBar');
     var navEl = document.querySelector('.nav');
     var toTop = document.getElementById('toTop');
+    var topSentinel = document.getElementById('topSentinel');
 
     if (toTop) {
       toTop.addEventListener('click', function () {
+        // Works whether the window or a wrapper element is the scroller
+        if (topSentinel && topSentinel.scrollIntoView) {
+          topSentinel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
         window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (document.scrollingElement) {
+          document.scrollingElement.scrollTo({ top: 0, behavior: 'smooth' });
+        }
       });
+    }
+
+    // Show the button based on the sentinel's position in the viewport,
+    // which is independent of which element actually scrolls.
+    function updateToTop() {
+      if (!toTop) return;
+      var offset = 0;
+      if (topSentinel) {
+        offset = -topSentinel.getBoundingClientRect().top;
+      } else {
+        offset = window.scrollY || document.documentElement.scrollTop || 0;
+      }
+      toTop.classList.toggle('show', offset > 420);
     }
 
     // Smooth scroll on click
@@ -630,11 +652,13 @@
       var height = h.scrollHeight - h.clientHeight;
       progressBar.style.width = (height > 0 ? (scrolled / height) * 100 : 0) + '%';
 
-      // back-to-top visibility
-      if (toTop) toTop.classList.toggle('show', scrolled > 420);
+      updateToTop();
     }
 
     window.addEventListener('scroll', onScroll, { passive: true });
+    // Capture phase catches scroll events fired on nested scroll containers
+    // (common in WordPress themes/page builders), not just the window.
+    document.addEventListener('scroll', onScroll, { passive: true, capture: true });
     window.addEventListener('resize', onScroll);
     onScroll();
 
