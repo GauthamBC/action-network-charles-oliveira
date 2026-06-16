@@ -90,17 +90,34 @@
   .oi .nav-mark .count b { color: var(--accent-dark); font-weight: 800; }
 
   .oi .nav-list {
+    --fade: 26px;
+    position: relative;
     display: flex; gap: 2px;
     overflow-x: auto; overflow-y: hidden;
-    flex: 1; height: 100%;
+    flex: 1 1 0%; min-width: 0; max-width: 100%;
+    height: 100%;
     align-items: center;
     padding-bottom: 8px;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-x: contain;
+    touch-action: pan-x;
     /* Firefox */
     scrollbar-width: thin;
     scrollbar-color: var(--accent) rgba(17, 24, 29, 0.07);
+  }
+  /* Edge fades signal that the strip is scrollable. JS sets data-edge. */
+  .oi .nav-list[data-edge="right"] {
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - var(--fade)), transparent);
+            mask-image: linear-gradient(90deg, #000 calc(100% - var(--fade)), transparent);
+  }
+  .oi .nav-list[data-edge="left"] {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 var(--fade));
+            mask-image: linear-gradient(90deg, transparent, #000 var(--fade));
+  }
+  .oi .nav-list[data-edge="both"] {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 var(--fade), #000 calc(100% - var(--fade)), transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 var(--fade), #000 calc(100% - var(--fade)), transparent);
   }
   /* WebKit / Chrome / Safari / Edge */
   .oi .nav-list::-webkit-scrollbar { height: 6px; }
@@ -615,7 +632,84 @@
     var progressBar = root.querySelector('#progressBar');
     var toTop = root.querySelector('#toTop');
     var topSentinel = root.querySelector('#topSentinel');
+    var navList = root.querySelector('#navList');
     var navH = 58; // sticky nav height
+
+    // State that keeps the scroll-spy from hijacking manual menu scrolling
+    var userScrolledNav = false, suppressNavScroll = false;
+    var navIdleTimer, suppressTimer, lastActiveIdx = -1;
+
+    function updateNavEdges() {
+      if (!navList) return;
+      var max = navList.scrollWidth - navList.clientWidth;
+      if (max <= 1) { navList.dataset.edge = 'none'; return; }
+      var x = navList.scrollLeft;
+      navList.dataset.edge = x <= 1 ? 'right' : (x >= max - 1 ? 'left' : 'both');
+    }
+
+    // Scroll the menu (and ONLY the menu) so the active tab is centered.
+    // Uses rect math instead of scrollIntoView so it never moves the page.
+    function centerActive(btn) {
+      if (!btn || !navList) return;
+      if (navList.scrollWidth - navList.clientWidth <= 1) return;
+      var b = btn.getBoundingClientRect(), l = navList.getBoundingClientRect();
+      var target = navList.scrollLeft + (b.left - l.left) - (navList.clientWidth - b.width) / 2;
+      target = Math.max(0, Math.min(target, navList.scrollWidth - navList.clientWidth));
+      suppressNavScroll = true;
+      navList.scrollTo({ left: target, behavior: 'smooth' });
+      clearTimeout(suppressTimer);
+      suppressTimer = setTimeout(function () { suppressNavScroll = false; updateNavEdges(); }, 450);
+    }
+
+    // Make the menu scroll horizontally with a vertical mouse wheel,
+    // and support click-and-drag — smoother on desktop/trackpads.
+    if (navList) {
+      // Vertical mouse-wheel → horizontal scroll
+      navList.addEventListener('wheel', function (e) {
+        if (Math.abs(e.deltaY) > Math.abs(e.deltaX) && navList.scrollWidth > navList.clientWidth) {
+          navList.scrollLeft += e.deltaY;
+          e.preventDefault();
+        }
+      }, { passive: false });
+
+      // Click-and-drag to scroll — MOUSE ONLY, so it never fights the
+      // browser's native touch/momentum scrolling on phones and tablets.
+      // NB: no setPointerCapture here — capturing redirects the click event
+      // away from the button and breaks tap-to-jump.
+      var dragging = false, startX = 0, startScroll = 0, moved = false;
+      navList.addEventListener('pointerdown', function (e) {
+        if (e.pointerType === 'touch') return;
+        dragging = true; moved = false;
+        startX = e.clientX; startScroll = navList.scrollLeft;
+      });
+      window.addEventListener('pointermove', function (e) {
+        if (!dragging) return;
+        var dx = e.clientX - startX;
+        if (Math.abs(dx) > 4) { moved = true; navList.style.cursor = 'grabbing'; }
+        navList.scrollLeft = startScroll - dx;
+        if (moved) userScrolledNav = true;
+      });
+      window.addEventListener('pointerup', function () {
+        dragging = false; navList.style.cursor = '';
+      });
+
+      // Cancel the click ONLY when an actual drag happened (so a plain click jumps)
+      navList.addEventListener('click', function (e) {
+        if (moved) { e.preventDefault(); e.stopPropagation(); }
+      }, true);
+
+      // When the user moves the strip themselves, pause auto-centering for a
+      // moment so the scroll-spy doesn't snap it back under their finger/cursor.
+      navList.addEventListener('scroll', function () {
+        updateNavEdges();
+        if (suppressNavScroll) return;          // ignore our own programmatic scrolls
+        userScrolledNav = true;
+        clearTimeout(navIdleTimer);
+        navIdleTimer = setTimeout(function () { userScrolledNav = false; }, 1600);
+      }, { passive: true });
+
+      updateNavEdges();
+    }
 
     function scrolledPast() {
       // How far the top of the component has moved above the viewport.
@@ -647,8 +741,12 @@
       buttons.forEach(function (b) { b.classList.toggle('active', b.dataset.target === id); });
       if (idx > -1 && navCount) {
         navCount.innerHTML = '<b>' + String(idx + 1).padStart(2, '0') + '</b> / 07';
-        var active = buttons[idx];
-        if (active) active.scrollIntoView({ block: 'nearest', inline: 'center' });
+      }
+      // Re-center the strip ONLY when the active section actually changes,
+      // and never while the user is scrolling the menu by hand.
+      if (idx > -1 && idx !== lastActiveIdx) {
+        lastActiveIdx = idx;
+        if (!userScrolledNav) centerActive(buttons[idx]);
       }
     }
 
@@ -670,6 +768,8 @@
 
       // Back-to-top visibility
       if (toTop) toTop.classList.toggle('show', offset > 420);
+
+      updateNavEdges();
     }
 
     window.addEventListener('scroll', update, { passive: true });
