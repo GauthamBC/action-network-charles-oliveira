@@ -1,0 +1,525 @@
+
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .an-root {
+    --green: #00a878;
+    --green-dark: #007a58;
+    --green-light: #e6f7f2;
+    --ink: #0d1117;
+    --sub: #4a5568;
+    --muted: #718096;
+    --border: rgba(0,0,0,0.09);
+    --surface: #ffffff;
+    --page: #f7f9f8;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: var(--page);
+    color: var(--ink);
+    line-height: 1.6;
+    padding: 0 0 48px;
+    width: 100%;
+  }
+
+  .an-root * { box-sizing: border-box; }
+
+  .an-hero {
+    background: var(--ink);
+    padding: 40px 32px 32px;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+  }
+  .an-hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--green);
+  }
+  .an-hero-tag {
+    display: inline-block;
+    background: var(--green);
+    color: #fff;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 3px;
+    margin-bottom: 16px;
+  }
+  .an-hero h1 {
+    font-size: clamp(22px, 4vw, 38px);
+    line-height: 1.18;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -.02em;
+  }
+  .an-hero-byline {
+    margin-top: 18px;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: .02em;
+  }
+
+  .an-wrap {
+    width: 100%;
+    margin: 0;
+    padding: 0 32px;
+  }
+
+  .an-nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(255,255,255,0.96);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+    padding: 0 32px;
+    width: 100%;
+  }
+  .an-nav-inner {
+    width: 100%;
+    margin: 0;
+    display: flex;
+    gap: 2px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 10px 0;
+  }
+  .an-nav-inner::-webkit-scrollbar { display: none; }
+  .an-nav button {
+    flex-shrink: 0;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: transparent;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color .15s, background .15s;
+  }
+  .an-nav button:hover {
+    color: var(--green-dark);
+    background: var(--green-light);
+  }
+
+  .an-key-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin: 28px 0;
+    overflow: hidden;
+    width: 100%;
+  }
+  .an-key-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 28px;
+    border-bottom: 1px solid var(--border);
+  }
+  .an-key-header-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    flex-shrink: 0;
+  }
+  .an-key-header h3 {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--green-dark);
+  }
+  .an-key-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .an-key-list li {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 16px 28px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--sub);
+    border-bottom: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+  }
+  .an-key-list li:nth-child(even) { border-right: none; }
+  .an-key-list li:nth-last-child(1),
+  .an-key-list li:nth-last-child(2) { border-bottom: none; }
+  .an-key-list li::before {
+    content: '';
+    flex-shrink: 0;
+    margin-top: 5px;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+  }
+
+  .an-section {
+    padding: 40px 0 0;
+    scroll-margin-top: 70px;
+    width: 100%;
+  }
+  .an-eyebrow {
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+  .an-section-title {
+    font-size: clamp(22px, 3vw, 30px);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -.025em;
+    color: var(--ink);
+    margin-bottom: 24px;
+    border-bottom: 2px solid var(--green);
+    padding-bottom: 16px;
+  }
+
+  .an-qa-list { display: grid; gap: 10px; width: 100%; }
+
+  .an-qa {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    scroll-margin-top: 70px;
+    width: 100%;
+  }
+  .an-qa-q {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 18px 28px;
+    background: var(--green-light);
+    border-bottom: 1px solid var(--border);
+  }
+  .an-q-badge {
+    flex-shrink: 0;
+    background: var(--ink);
+    color: #fff;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: .06em;
+    padding: 4px 9px;
+    border-radius: 3px;
+    margin-top: 1px;
+  }
+  .an-q-text {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.4;
+    flex: 1;
+  }
+  .an-answer {
+    padding: 22px 28px 24px;
+  }
+  .an-answer p {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--sub);
+    margin-bottom: 15px;
+    font-style: italic;
+  }
+  .an-answer p:last-child { margin-bottom: 0; }
+
+  @media (max-width: 680px) {
+    .an-hero { padding: 28px 18px 24px; }
+    .an-wrap, .an-nav { padding-left: 18px; padding-right: 18px; }
+    .an-key-list { grid-template-columns: 1fr; }
+    .an-key-list li { border-right: none; }
+    .an-key-list li:nth-last-child(2) { border-bottom: 1px solid var(--border); }
+    .an-key-header, .an-qa-q, .an-answer { padding-left: 18px; padding-right: 18px; }
+  }
+</style>
+
+<div class="an-root">
+  <div class="an-hero">
+    <span class="an-hero-tag">Exclusive Interview</span>
+    <h1>Charles Oliveira: 'I'm next in line' for Justin Gaethje, Gaethje had a 'bigger heart' than Ilia Topuria, Everyone knows it should have been me vs. Conor McGregor</h1>
+    <div class="an-hero-byline">Action Network &nbsp;·&nbsp; UFC Lightweight</div>
+  </div>
+
+  <nav class="an-nav" aria-label="Interview topics">
+    <div class="an-nav-inner">
+      <button onclick="document.getElementById('key-findings').scrollIntoView({behavior:'smooth',block:'start'})">Key Findings</button>
+      <button onclick="document.getElementById('gaethje-rematch').scrollIntoView({behavior:'smooth',block:'start'})">Gaethje Rematch</button>
+      <button onclick="document.getElementById('topuria-fallout').scrollIntoView({behavior:'smooth',block:'start'})">Topuria Fallout</button>
+      <button onclick="document.getElementById('title-picture').scrollIntoView({behavior:'smooth',block:'start'})">Title Picture</button>
+      <button onclick="document.getElementById('white-house-card').scrollIntoView({behavior:'smooth',block:'start'})">White House Card</button>
+      <button onclick="document.getElementById('conor-paddy-boxing').scrollIntoView({behavior:'smooth',block:'start'})">Conor, Paddy &amp; Boxing</button>
+      <button onclick="document.getElementById('brazil-football').scrollIntoView({behavior:'smooth',block:'start'})">Brazil Football</button>
+    </div>
+  </nav>
+
+  <div class="an-wrap">
+
+    <section id="key-findings" style="scroll-margin-top:70px; padding-top:28px;">
+      <div class="an-key-card">
+        <div class="an-key-header">
+          <div class="an-key-header-dot"></div>
+          <h3>Key Findings</h3>
+        </div>
+        <ul class="an-key-list">
+          <li>Charles Oliveira says he believes he is next in line for a title shot and would be ready wherever the belt is.</li>
+          <li>Oliveira says Justin Gaethje's heart, determination and self-belief won him the fight against Ilia Topuria.</li>
+          <li>Oliveira calls Gaethje's win one of the biggest upsets in UFC history and says anyone who backed him "cleaned up."</li>
+          <li>Oliveira does not believe Topuria quit and says the fight was stopped at exactly the right moment.</li>
+          <li>On Conor McGregor vs. Max Holloway, Oliveira says the first round will tell a lot, with the later rounds tending to favor Holloway.</li>
+          <li>Oliveira says Brazil needs more hunger on the pitch and suggests Casemiro could make a good fighter.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="gaethje-rematch" class="an-section">
+      <div class="an-eyebrow">Title Race</div>
+      <h2 class="an-section-title">Oliveira says he is next in line for Gaethje</h2>
+      <div class="an-qa-list">
+        <div id="q01" class="an-qa">
+          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">Do you want a rematch with Justin?</span></div>
+          <div class="an-answer">
+            <p>I don't think Justin is going to ask for a rematch. He's operating at a different level now as champion. But I'm right there in the queue to be the next title challenger. So why not make that fight?</p>
+            <p>To be completely honest, the last few times I spoke with Diego I kept saying that we needed to wait until after this White House event to understand what the next step would be.</p>
+            <p>If Topuria won, whether he would move up a division or stay where he was. If Gaethje won, what would happen then? So that's what we did: we stopped and waited.</p>
+            <p>We don't know whether Gaethje is going to retire or not. That's what he said himself, that he needed to speak to his mother and let the night pass before making a decision.</p>
+            <p>So we're waiting. In my mind, I believe I'm next in line for a title shot. We need to understand the timing of everything and see what happens.</p>
+            <p>I've spoken a lot about the São Paulo event, which, if I'm not mistaken, is scheduled for October. That would be a good date as well. But for now, we're waiting.</p>
+            <p>But what I always tell everyone is this: if you want to become champion, you have to go where the belt is. For me, the location doesn't matter.</p>
+            <p>Wherever it is, I'll be ready. And there would be a lot of people backing me, supporting me and cheering for me. It would be huge. It would be amazing.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="topuria-fallout" class="an-section">
+      <div class="an-eyebrow">Main Event Fallout</div>
+      <h2 class="an-section-title">Gaethje's heart and pressure changed the fight</h2>
+      <div class="an-qa-list">
+        <div id="q02" class="an-qa">
+          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">How did you see Topuria vs. Gaethje?</span></div>
+          <div class="an-answer">
+            <p>How many times have we seen fighters who were massive favorites to win, and then one punch, one takedown or one submission changes everything?</p>
+            <p>I picked Topuria as well. I thought he could come in and get the knockout, but I kept telling everyone that Gaethje was a dangerous guy.</p>
+            <p>He's a fighter who lands shots, likes dirty fighting, likes clinching, taking people down, controlling the head and applying pressure. It's an awkward style to deal with, and it worked.</p>
+            <p>Topuria came in with his usual aggressive style, hunting for the finish and looking to land. In fact, in the second round he practically knocked Gaethje out.</p>
+            <p>But Gaethje rose from the ashes again. He didn't quit. He stayed behind the jab, clinched, mixed in the grappling, got the takedowns and went to work. It paid off. He won. He got the knockout.</p>
+            <p>He put on one hell of a performance and showed the world what MMA truly is. There are no guarantees. Once that cage door closes, nobody knows who's going to win until the hand gets raised. It was an incredible fight.</p>
+          </div>
+        </div>
+        <div id="q03" class="an-qa">
+          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">Would you say it was one of the biggest upsets in UFC history?</span></div>
+          <div class="an-answer">
+            <p>Was it the biggest upset in history? I think so. For everything surrounding it. The betting odds alone. Anyone who backed Gaethje cleaned up. I lost money on it myself. I had a bet with my cousin and lost.</p>
+            <p>The people who backed Gaethje made a lot of money. When all the hype around the UFC at the White House started, I honestly thought they'd stack the card with elite American fighters like Gaethje, the sort of guys who walk out with the flag and are passionate about representing the United States.</p>
+            <p>When the card started taking shape, I remember thinking: "Which American is actually going to win tonight?" So things looked a bit complicated from that point on. But Gaethje went out there, shocked everyone, made history and, I think, made every American fan happy with a main event like that.</p>
+            <p>Sometimes the styles just don't match up, brother. Sometimes they do. But then the other bloke has a bigger heart than you. And there's nothing you can do about that.</p>
+          </div>
+        </div>
+        <div id="q04" class="an-qa">
+          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">What did you make of Ilia's strategy?</span></div>
+          <div class="an-answer">
+            <p>I'll use myself as an example so nobody takes a clip out of context later. I've fought him. I stood there waiting because I believed my shot would land.</p>
+            <p>There are days like that. Sometimes you put together a game plan and it doesn't work. What can you do? It's done. It's over. You have to do what I did: bounce back and come back better.</p>
+            <p>When he started getting very defensive, I thought: "What's this strategy about?" But he was looking for that one shot. And if it lands, it's over.</p>
+            <p>He landed a huge punch that made Gaethje fold and hit the canvas. But Gaethje's heart was bigger. Topuria lost and Gaethje won. That's the reality of it.</p>
+          </div>
+        </div>
+        <div id="q05" class="an-qa">
+          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">Some people said he quit. Did you see it that way?</span></div>
+          <div class="an-answer">
+            <p>Did Ilia quit? Not really. If you watch it back, when he sat down his team wanted to stop the fight and he didn't. The team basically respected what he wanted and let him carry on.</p>
+            <p>Then the doctor came in toward the end and wanted to stop it. They spoke about it and allowed him to continue.</p>
+            <p>For me, the fight was stopped at exactly the right moment. There was nothing left for him to do. He wasn't getting going anymore. He was badly hurt. If he'd gone back out, it probably would have carried on the same way.</p>
+            <p>To be honest, people are never satisfied. There's always someone who wants to say something to jump on the hype train or stir things up. But that's MMA. There will always be someone criticizing or trying to add fuel to the fire. That's part of the game.</p>
+          </div>
+        </div>
+        <div id="q06" class="an-qa">
+          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">What won Justin the fight?</span></div>
+          <div class="an-answer">
+            <p>What won Justin the fight? Heart. No doubt about it. Heart, determination, the desire to become champion and win. If you look at it from the other side, everything was against him. The whole world was against him. Everyone was betting against him.</p>
+            <p>The guy believed in himself. He never gave up from start to finish. He beat a very tough opponent and got the win. His team kept telling him from the beginning: stay focused.</p>
+            <p>And if you watch from the second to the third round, his corner kept telling him to move forward. He got hit hard, clinched, got the takedown and did exactly what he'd trained to do. He never quit. Fair play to him.</p>
+          </div>
+        </div>
+        <div id="q07" class="an-qa">
+          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">Do you think the period away from competition, as well as the personal issues, could have affected Topuria?</span></div>
+          <div class="an-answer">
+            <p>People always say that when you spend a long time without fighting, you come back different. Me, Charles, I don't like being away from competition for too long.</p>
+            <p>I feel like I lose a bit of my timing. When I was able to compete in jiu-jitsu tournaments, I stayed in that competitive rhythm.</p>
+            <p>But it depends on the person. I don't know what his situation was. It's difficult to talk about what happened behind the scenes.</p>
+            <p>What we can say is that unfortunately it wasn't his day. It was Gaethje's day. He put on a great performance and earned a great win.</p>
+          </div>
+        </div>
+        <div id="q08" class="an-qa">
+          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">Would you have any message for Topuria right now?</span></div>
+          <div class="an-answer">
+            <p>He himself said something that's true. A lot of fighters lose and then drop their heads. I did the opposite.</p>
+            <p>When I lost to him, I went home and wanted to stay close to my family. Because a lot of people will hug you, but at the same time they're mocking you and talking nonsense online.</p>
+            <p>I stayed close to the people who genuinely love me. I focused on training, correcting my mistakes, demanding more from myself and coming back better.</p>
+            <p>I'm coming off two straight wins now. So if I could say anything to him, it would be this: stay close to your family and the people who love you. When you're ready, come back. But come back better, fixing your mistakes and chasing new victories.</p>
+          </div>
+        </div>
+        <div id="q09" class="an-qa">
+          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">Do you think this defeat affects his image? Has he lost that untouchable aura?</span></div>
+          <div class="an-answer">
+            <p>When you're unbeaten, talking and winning, you build massive hype around yourself. When you lose, people definitely don't respect you in quite the same way they did before. A lot will depend on how he comes back. His next fight will say a lot about who he really is.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="title-picture" class="an-section">
+      <div class="an-eyebrow">Lightweight Picture</div>
+      <h2 class="an-section-title">Tsarukyan matchup viewed as another difficult test</h2>
+      <div class="an-qa-list">
+        <div id="q10" class="an-qa">
+          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">If Gaethje fights Tsarukyan, do you think he can win that one as well?</span></div>
+          <div class="an-answer">
+            <p>It's MMA. For me, it's a difficult fight for him because Tsarukyan does exactly the kind of thing that disrupts his game: takedowns, clinching and controlling the fight.</p>
+            <p>But Gaethje has incredibly heavy hands. If he lands, he can knock anyone out.</p>
+            <p>In my view it's a tough fight because Tsarukyan uses that style of grappling, getting takedowns and controlling positions. It's an awkward style to deal with.</p>
+            <p>I think it's another difficult matchup for him. But in the fight I thought he would lose by knockout, he ended up winning.</p>
+            <p>We're talking about MMA. To me it's 50-50. Once the cage door closes, who's going to win? The fighter who's better prepared, the one with the stronger spirit, the one who refuses to quit.</p>
+            <p>But technically speaking, I think Tsarukyan has more ways to win because of that game of getting takedowns, grappling and working in close quarters.</p>
+            <p>That said, Gaethje has just shown that he's a killer, that he lands big shots, never gives up and can make things happen.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="white-house-card" class="an-section">
+      <div class="an-eyebrow">White House Card</div>
+      <h2 class="an-section-title">Hokit, Poatan, Gane and Ruffy assessed</h2>
+      <div class="an-qa-list">
+        <div id="q11" class="an-qa">
+          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">What did you think about Josh Hokit?</span></div>
+          <div class="an-answer">
+            <p>Josh Hokit? He's a crazy character. Whether you like it or not, you have to give him credit for coming off two knockouts and two big wins.</p>
+            <p>For me, he's a really crazy character. You saw it. He went over there, jumped around, spoke to Trump and then started talking a load of nonsense.</p>
+            <p>He called out Poatan. He talked about Michelle Obama. I didn't really understand exactly what he was saying.</p>
+            <p>But for me, he's a character. You see a guy who came in before his first fight talking loads of rubbish and then afterwards acted like a shy guy.</p>
+            <p>In reality, he's a character who's hated by a lot of people and loved by a lot of other crazy people as well. Honestly, for me, he's a character.</p>
+            <p>But as a fighter, he's clever. In his first fight he came out and just stood there trading shots. In this fight he came in with a proper game plan.</p>
+            <p>Smart, landing shots, doing what everyone thought was the safest route: taking Derrick Lewis down, smothering him and making him tire out.</p>
+          </div>
+        </div>
+        <div id="q12" class="an-qa">
+          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">Thoughts on Poatan at heavyweight?</span></div>
+          <div class="an-answer">
+            <p>I think all we can do is applaud him. He fought an incredibly tough opponent in Gane. A guy who moves well, lands well, gets takedowns and uses his movement brilliantly.</p>
+            <p>If you look at the first round, Poatan ate a lot of jabs. But that was part of the fight. He was there trying to find the timing. And if he'd found the right moment on the exit, he could have landed the knockout.</p>
+            <p>My feeling was disappointment, yes. Because it would have been another belt for Brazil, another great story for Brazil and for Poatan's whole team. But that's MMA.</p>
+            <p>We're talking about heavyweights. One punch landing can create all sorts of situations. It's enough to take you out of the fight.</p>
+            <p>So that's just part of the game. I think the most important thing was what he said afterwards: sit down with the team again and figure out what the next step is.</p>
+            <p>Work out what needs to be done to come back and remain a major name, whether that means staying in this division or going back down.</p>
+            <p>For me, there's still a lot left for him to do. He beats a lot of people in that division and we all know it's a division with relatively few fighters. One win, given the name he has, puts him right back into title contention.</p>
+          </div>
+        </div>
+        <div id="q13" class="an-qa">
+          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">There was some criticism of Gane because a few punches looked like they landed to the back of the head. Did you notice anything like that?</span></div>
+          <div class="an-answer">
+            <p>When we're in there, in the heat of the fight, full of adrenaline, trying to get the knockout and win, things happen very quickly.</p>
+            <p>And I think the person best placed to judge that is the referee. He's right there to see whether shots are landing to the back of the head or not.</p>
+            <p>From my point of view, it wasn't something that decided the fight. Maybe one or two punches clipped the back of the head, but that wasn't what determined the outcome.</p>
+            <p>What determined it was the sequence of strikes that Gane managed to land. And Poatan, with the heart of a lion, kept getting up and trading until he was eventually beaten.</p>
+          </div>
+        </div>
+        <div id="q14" class="an-qa">
+          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">Thoughts on Ruffy?</span></div>
+          <div class="an-answer">
+            <p>Ruffy is an artist. A true martial artist. He lands his hands really well and has a very polished game. He knew exactly what he had to do to go in there and win convincingly.</p>
+            <p>He was just waiting for the right moment. He went in, fought, didn't get hurt and made it look easy. Fair play to him. There's nothing to criticize. Sometimes you're in a hard fight and you have to dig deep. Sometimes a fight looks easy.</p>
+            <p>And that's what he did, he made it look easy. What can you say? He didn't need to throw loads of strikes. He landed the strikes he needed to land and did exactly what was required.</p>
+            <p>I definitely think he needs at least one more fight before a title shot. Maybe one, maybe two. The reality is that he's fighting in the toughest division in the sport, the lightweight division. There are a lot of big names there and a lot still needs to happen.</p>
+            <p>I don't think he goes straight into a title fight. Not yet.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="conor-paddy-boxing" class="an-section">
+      <div class="an-eyebrow">Combat Sports</div>
+      <h2 class="an-section-title">Oliveira weighs Conor vs. Max, Paddy and Joshua-Fury</h2>
+      <div class="an-qa-list">
+        <div id="q15" class="an-qa">
+          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">Who would you favor — Conor or Max?</span></div>
+          <div class="an-answer">
+            <p>Max is a guy who's been going five rounds in his recent fights. He handles five rounds very well. Conor has been inactive for a long time.</p>
+            <p>He actually asked for the fight to be three rounds and he picked the opponent. Because, in reality, everyone knows that fight was supposed to be against me, but he chose the opponent.</p>
+            <p>That's part of the game. You've got to choose what you think is best for you. The fight is going to be at 77 kilos. Honestly, I think the first round will tell us a lot.</p>
+            <p>If he doesn't get the knockout or put on a very dominant performance in the first round, then the later rounds tend to favor Max Holloway because of his speed and because he won't need to cut weight.</p>
+            <p>But, as I always say, Conor is one of the guys who made history and helped raise the profile of the sport. The arena is going to be packed. It's going to be magical.</p>
+            <p>I think it's difficult for him to become exactly like the old Conor again. But Conor will always be Conor. He's a guy who hits hard, moves well and knows how to sell a fight better than anyone.</p>
+            <p>It's what I always tell people: Conor as an athlete is 100% in my eyes. What I don't like is the way he promotes fights. But I don't know him personally.</p>
+            <p>I've never had the chance to spend time around him and find out whether he's genuinely a good guy or whether it's all just a character. Because a lot of people say he's actually a good person. So the only thing I don't like is the way he sells a fight. Apart from that, for me, he's 100%.</p>
+          </div>
+        </div>
+        <div id="q16" class="an-qa">
+          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">Paddy Pimblett vs Saint-Denis?</span></div>
+          <div class="an-answer">
+            <p>If you look at their recent fights, I think Saint-Denis has a much better chance of winning. He's got good striking, very good grappling and better movement.</p>
+            <p>But it's MMA. A lot of people say, "Charles, you're sitting on the fence." That's not it. But for me, Benoit has the better chance of winning.</p>
+          </div>
+        </div>
+        <div id="q17" class="an-qa">
+          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">If Dana put together a fight between Anthony Joshua and Tyson Fury, how do you think it would be received?</span></div>
+          <div class="an-answer">
+            <p>A fight between monsters. A fight between giants. Everything Dana White touches becomes something huge, something worth billions.</p>
+            <p>You've just seen the White House event. Who would ever have imagined that something like that would happen one day? But it happened.</p>
+            <p>Trump had already been appearing at several events before that. That's very good for all of us who are part of the organization. And if that fight happens, it would be absolutely massive.</p>
+            <p>We're talking about two huge names in boxing. It would be incredible to watch.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="brazil-football" class="an-section">
+      <div class="an-eyebrow">Brazil Football</div>
+      <h2 class="an-section-title">Oliveira calls for more hunger from Brazil</h2>
+      <div class="an-qa-list">
+        <div id="q18" class="an-qa">
+          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">What's your assessment of Brazil so far?</span></div>
+          <div class="an-answer">
+            <p>People watching from the outside always think it's easier to talk than it is for the people actually living through it on the pitch. But from what we saw, I think there was a lack of a bit more hunger.</p>
+            <p>I see it this way: when you go into a favela and ask a kid what he wants to be, he says he wants to be a footballer.</p>
+            <p>But he never says he wants to be some unknown player. He says he wants to be Neymar, Cristiano Ronaldo or Messi.</p>
+            <p>So when you become a footballer and you're chosen to represent your country, that carries huge responsibility. How many players were left out?</p>
+            <p>And only 26 were selected. Those 26 carry the country's flag on their shoulders. I think there was little lack of spirit and we need a little more hunger, a little more willingness to fight for every ball.</p>
+          </div>
+        </div>
+        <div id="q19" class="an-qa">
+          <div class="an-qa-q"><span class="an-q-badge">Q</span><span class="an-q-text">Which player from this squad do you think could make a good fighter?</span></div>
+          <div class="an-answer">
+            <p>Which player from this squad do you think could make a good fighter? Maybe Casemiro. He's tall, he's strong and when he's needed, he's always there.</p>
+            <p>Vinícius Júnior as well. Whenever there's a challenge, a confrontation or a bit of chaos, he gets involved and stands his ground. But I think Casemiro would be a good shout. He's a tall, strong guy.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
