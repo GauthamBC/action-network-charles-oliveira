@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  .oi, .oi *, .oi *::before, .oi *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
+  .oi {
     --accent: #0c9b71;
     --accent-dark: #06674c;
     --accent-wash: #eef7f3;
@@ -25,11 +25,8 @@
     --shadow-lift: 0 2px 4px rgba(17,24,29,.05), 0 18px 40px rgba(17,24,29,.09);
     --maxw: 100%;
     --gutter: 40px;
-  }
 
-  html { scroll-behavior: smooth; }
-
-  body {
+    position: relative;
     font-family: 'Newsreader', Georgia, serif;
     background:
       radial-gradient(1200px 600px at 80% -120px, rgba(12,155,113,.06), transparent 60%),
@@ -38,68 +35,68 @@
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-    padding-bottom: 72px;
+    padding-bottom: 8px;
   }
 
   /* ── Scroll progress ───────────────────────────── */
-  .progress-track {
+  .oi .progress-track {
     position: fixed; top: 0; left: 0; right: 0;
     height: 3px; z-index: 60;
     background: transparent;
   }
-  .progress-bar {
+  .oi .progress-bar {
     height: 100%; width: 0%;
     background: linear-gradient(90deg, var(--accent-dark), var(--accent));
     transition: width .08s linear;
   }
 
   /* ── Navigation ────────────────────────────────── */
-  .nav {
+  .oi .nav {
     position: sticky; top: 0; z-index: 50;
     background: rgba(244, 245, 242, 0.82);
     backdrop-filter: blur(14px) saturate(160%);
     -webkit-backdrop-filter: blur(14px) saturate(160%);
     border-bottom: 1px solid var(--hairline);
   }
-  .nav-inner {
+  .oi .nav-inner {
     max-width: var(--maxw); margin: 0 auto;
     display: flex; align-items: center; gap: 18px;
     padding: 0 var(--gutter);
     height: 58px;
   }
-  .nav-mark {
+  .oi .nav-mark {
     display: flex; align-items: center; gap: 9px;
     flex-shrink: 0; padding-right: 18px;
     border-right: 1px solid var(--hairline);
     height: 26px;
   }
-  .nav-mark .tick {
+  .oi .nav-mark .tick {
     width: 11px; height: 11px; border-radius: 2px;
     background: var(--accent);
     transform: rotate(45deg);
     box-shadow: 0 0 0 3px var(--accent-wash);
   }
-  .nav-mark .label {
+  .oi .nav-mark .label {
     font-family: 'Archivo', sans-serif;
     font-size: 10px; font-weight: 800;
     letter-spacing: .18em; text-transform: uppercase;
     color: var(--ink); white-space: nowrap;
   }
-  .nav-mark .count {
+  .oi .nav-mark .count {
     font-family: 'Archivo', sans-serif;
     font-size: 10px; font-weight: 600;
     letter-spacing: .06em; color: var(--muted);
   }
-  .nav-mark .count b { color: var(--accent-dark); font-weight: 800; }
+  .oi .nav-mark .count b { color: var(--accent-dark); font-weight: 800; }
 
-  .nav-list {
+  .oi .nav-list {
     display: flex; gap: 2px;
     overflow-x: auto; scrollbar-width: none;
     flex: 1; height: 100%;
     align-items: center;
   }
-  .nav-list::-webkit-scrollbar { display: none; }
-  .nav-list button {
+  .oi .nav-list::-webkit-scrollbar { display: none; }
+  .oi .nav-list button {
     position: relative;
     flex-shrink: 0;
     font-family: 'Archivo', sans-serif;
@@ -110,22 +107,22 @@
     white-space: nowrap;
     transition: color .18s ease, background .18s ease;
   }
-  .nav-list button::after {
+  .oi .nav-list button::after {
     content: ''; position: absolute;
     left: 13px; right: 13px; bottom: 2px; height: 2px;
     background: var(--accent); border-radius: 2px;
     transform: scaleX(0); transform-origin: left;
     transition: transform .22s ease;
   }
-  .nav-list button:hover { color: var(--ink); background: rgba(17,24,29,.04); }
-  .nav-list button.active { color: var(--ink); }
-  .nav-list button.active::after { transform: scaleX(1); }
+  .oi .nav-list button:hover { color: var(--ink); background: rgba(17,24,29,.04); }
+  .oi .nav-list button.active { color: var(--ink); }
+  .oi .nav-list button.active::after { transform: scaleX(1); }
 
   /* ── Layout shell ──────────────────────────────── */
-  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
+  .oi .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 
   /* ── Key findings ──────────────────────────────── */
-  .key-card {
+  .oi .key-card {
     background: var(--surface);
     border: 1px solid var(--hairline);
     border-radius: 18px;
@@ -133,22 +130,22 @@
     overflow: hidden;
     box-shadow: var(--shadow);
   }
-  .key-header {
+  .oi .key-header {
     display: flex; align-items: center; gap: 12px;
     padding: 22px 34px;
     background:
       linear-gradient(180deg, var(--accent-wash), transparent);
     border-bottom: 1px solid var(--hairline);
   }
-  .key-header .bar { width: 3px; height: 22px; border-radius: 3px; background: var(--accent); }
-  .key-header h3 {
+  .oi .key-header .bar { width: 3px; height: 22px; border-radius: 3px; background: var(--accent); }
+  .oi .key-header h3 {
     font-family: 'Archivo', sans-serif;
     font-size: 12px; font-weight: 900;
     letter-spacing: .16em; text-transform: uppercase;
     color: var(--accent-dark);
   }
-  .key-list { list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); }
-  .key-list li {
+  .oi .key-list { list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); }
+  .oi .key-list li {
     position: relative;
     display: flex; gap: 16px; align-items: flex-start;
     padding: 22px 34px;
@@ -158,9 +155,9 @@
     border-bottom: 1px solid var(--hairline-soft);
     border-right: 1px solid var(--hairline-soft);
   }
-  .key-list li:nth-child(even) { border-right: none; }
-  .key-list li:nth-last-child(1), .key-list li:nth-last-child(2) { border-bottom: none; }
-  .key-list li .num {
+  .oi .key-list li:nth-child(even) { border-right: none; }
+  .oi .key-list li:nth-last-child(1), .oi .key-list li:nth-last-child(2) { border-bottom: none; }
+  .oi .key-list li .num {
     flex-shrink: 0;
     font-family: 'Archivo', sans-serif;
     font-size: 11px; font-weight: 800;
@@ -171,28 +168,28 @@
   }
 
   /* ── Sections ──────────────────────────────────── */
-  .section { padding: 56px 0 0; scroll-margin-top: 78px; }
-  .eyebrow {
+  .oi .section { padding: 56px 0 0; scroll-margin-top: 78px; }
+  .oi .eyebrow {
     display: inline-flex; align-items: center; gap: 8px;
     font-family: 'Archivo', sans-serif;
     font-size: 10.5px; font-weight: 800;
     letter-spacing: .18em; text-transform: uppercase;
     color: var(--accent); margin-bottom: 12px;
   }
-  .eyebrow::before { content: ''; width: 20px; height: 1.5px; background: var(--accent); }
-  .section-title {
+  .oi .eyebrow::before { content: ''; width: 20px; height: 1.5px; background: var(--accent); }
+  .oi .section-title {
     font-family: 'Archivo', sans-serif;
     font-size: clamp(24px, 3.4vw, 36px); font-weight: 800; line-height: 1.12;
     letter-spacing: -.025em; color: var(--ink); margin-bottom: 26px;
   }
-  .section-title .rule {
+  .oi .section-title .rule {
     display: block; width: 56px; height: 3px; border-radius: 3px;
     background: var(--accent); margin-top: 18px;
   }
 
   /* ── Q&A ───────────────────────────────────────── */
-  .qa-list { display: grid; gap: 14px; }
-  .qa {
+  .oi .qa-list { display: grid; gap: 14px; }
+  .oi .qa {
     background: var(--surface);
     border: 1px solid var(--hairline);
     border-radius: 16px;
@@ -201,13 +198,13 @@
     box-shadow: var(--shadow);
     transition: box-shadow .22s ease, transform .22s ease, border-color .22s ease;
   }
-  .qa:hover { box-shadow: var(--shadow-lift); transform: translateY(-2px); border-color: rgba(12,155,113,.30); }
-  .qa-q {
+  .oi .qa:hover { box-shadow: var(--shadow-lift); transform: translateY(-2px); border-color: rgba(12,155,113,.30); }
+  .oi .qa-q {
     display: flex; align-items: flex-start; gap: 15px;
     padding: 22px 30px;
     border-bottom: 1px solid var(--hairline-soft);
   }
-  .q-badge {
+  .oi .q-badge {
     flex-shrink: 0; margin-top: 2px;
     width: 30px; height: 30px; border-radius: 9px;
     display: grid; place-items: center;
@@ -215,15 +212,15 @@
     font-family: 'Archivo', sans-serif;
     font-size: 12px; font-weight: 900;
   }
-  .q-text {
+  .oi .q-text {
     font-family: 'Archivo', sans-serif;
     font-size: 17px; font-weight: 700;
     color: var(--ink); line-height: 1.4; flex: 1;
     padding-top: 3px;
     letter-spacing: -.01em;
   }
-  .answer { padding: 26px 30px 30px 75px; }
-  .answer p {
+  .oi .answer { padding: 26px 30px 30px 75px; }
+  .oi .answer p {
     font-family: 'Newsreader', Georgia, serif;
     font-size: 19px; font-weight: 400;
     line-height: 1.82; color: var(--sub);
@@ -231,40 +228,39 @@
     max-width: 68ch;
     letter-spacing: .003em;
   }
-  .answer p:first-child { position: relative; }
-  .answer p:first-child::before {
+  .oi .answer p:first-child { position: relative; }
+  .oi .answer p:first-child::before {
     content: ''; position: absolute;
     left: -27px; top: 4px; width: 3px; height: calc(100% - 6px);
     background: var(--accent); border-radius: 3px;
     opacity: .35;
   }
-  .answer p:last-child { margin-bottom: 0; }
+  .oi .answer p:last-child { margin-bottom: 0; }
 
   /* ── Reveal on scroll ──────────────────────────── */
-  .reveal { opacity: 0; transform: translateY(16px); transition: opacity .55s ease, transform .55s ease; }
-  .reveal.in { opacity: 1; transform: none; }
+  .oi .reveal { opacity: 0; transform: translateY(16px); transition: opacity .55s ease, transform .55s ease; }
+  .oi .reveal.in { opacity: 1; transform: none; }
 
   /* ── Responsive ────────────────────────────────── */
   @media (max-width: 760px) {
-    .wrap, .nav-inner { padding-left: 18px; padding-right: 18px; }
-    .nav-mark .label { display: none; }
-    .key-list { grid-template-columns: 1fr; }
-    .key-list li { border-right: none; }
-    .key-list li:nth-last-child(2) { border-bottom: 1px solid var(--hairline-soft); }
-    .key-header, .key-list li, .qa-q { padding-left: 20px; padding-right: 20px; }
-    .answer { padding: 22px 20px 24px 24px; }
-    .answer p:first-child::before { display: none; }
+    .oi .wrap, .oi .nav-inner { padding-left: 18px; padding-right: 18px; }
+    .oi .nav-mark .label { display: none; }
+    .oi .key-list { grid-template-columns: 1fr; }
+    .oi .key-list li { border-right: none; }
+    .oi .key-list li:nth-last-child(2) { border-bottom: 1px solid var(--hairline-soft); }
+    .oi .key-header, .oi .key-list li, .oi .qa-q { padding-left: 20px; padding-right: 20px; }
+    .oi .answer { padding: 22px 20px 24px 24px; }
+    .oi .answer p:first-child::before { display: none; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-    .reveal { opacity: 1; transform: none; transition: none; }
-    .qa { transition: none; }
-    .to-top { transition: opacity .2s ease; }
+    .oi .reveal { opacity: 1; transform: none; transition: none; }
+    .oi .qa { transition: none; }
+    .oi .to-top { transition: opacity .2s ease; }
   }
 
   /* ── Back to top ───────────────────────────────── */
-  .to-top {
+  .oi .to-top {
     position: fixed;
     right: 26px; bottom: 26px;
     z-index: 55;
@@ -280,17 +276,18 @@
     transform: translateY(12px) scale(.92);
     transition: opacity .28s ease, transform .28s ease, visibility .28s, background .2s ease, color .2s ease;
   }
-  .to-top.show { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
-  .to-top:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
-  .to-top:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-  .to-top svg { width: 19px; height: 19px; display: block; }
+  .oi .to-top.show { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+  .oi .to-top:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .oi .to-top:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .oi .to-top svg { width: 19px; height: 19px; display: block; }
 
   @media (max-width: 760px) {
-    .to-top { right: 16px; bottom: 16px; width: 44px; height: 44px; }
+    .oi .to-top { right: 16px; bottom: 16px; width: 44px; height: 44px; }
   }
 </style>
 </head>
 <body>
+<div class="oi">
 
   <span id="topSentinel" aria-hidden="true" style="position:absolute;top:0;left:0;width:1px;height:1px;"></span>
 
@@ -579,44 +576,37 @@
       <path d="M12 19V5"></path><path d="M5 12l7-7 7 7"></path>
     </svg>
   </button>
+</div>
 
 <script>
   (function () {
+    var root = document.querySelector('.oi');
+    if (!root) return;
     var sections = ['key-findings','gaethje-rematch','topuria-fallout','title-picture','white-house-card','conor-paddy-boxing','brazil-football'];
-    var buttons = Array.prototype.slice.call(document.querySelectorAll('#navList button'));
-    var navCount = document.getElementById('navCount');
-    var progressBar = document.getElementById('progressBar');
-    var navEl = document.querySelector('.nav');
-    var toTop = document.getElementById('toTop');
-    var topSentinel = document.getElementById('topSentinel');
+    var buttons = Array.prototype.slice.call(root.querySelectorAll('#navList button'));
+    var navCount = root.querySelector('#navCount');
+    var progressBar = root.querySelector('#progressBar');
+    var toTop = root.querySelector('#toTop');
+    var topSentinel = root.querySelector('#topSentinel');
+    var navH = 58; // sticky nav height
 
-    if (toTop) {
-      toTop.addEventListener('click', function () {
-        // Works whether the window or a wrapper element is the scroller
-        if (topSentinel && topSentinel.scrollIntoView) {
-          topSentinel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        if (document.scrollingElement) {
-          document.scrollingElement.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-      });
+    function scrolledPast() {
+      // How far the top of the component has moved above the viewport.
+      // Viewport-relative, so it works whether the window OR a wrapper scrolls.
+      if (topSentinel) return -topSentinel.getBoundingClientRect().top;
+      return window.scrollY || document.documentElement.scrollTop || 0;
     }
 
-    // Show the button based on the sentinel's position in the viewport,
-    // which is independent of which element actually scrolls.
-    function updateToTop() {
-      if (!toTop) return;
-      var offset = 0;
-      if (topSentinel) {
-        offset = -topSentinel.getBoundingClientRect().top;
-      } else {
-        offset = window.scrollY || document.documentElement.scrollTop || 0;
+    function goTop() {
+      if (topSentinel && topSentinel.scrollIntoView) {
+        topSentinel.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
-      toTop.classList.toggle('show', offset > 420);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (document.scrollingElement) document.scrollingElement.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Smooth scroll on click
+    if (toTop) toTop.addEventListener('click', goTop);
+
     buttons.forEach(function (btn) {
       btn.addEventListener('click', function () {
         var el = document.getElementById(btn.dataset.target);
@@ -629,40 +619,37 @@
       buttons.forEach(function (b) { b.classList.toggle('active', b.dataset.target === id); });
       if (idx > -1 && navCount) {
         navCount.innerHTML = '<b>' + String(idx + 1).padStart(2, '0') + '</b> / 07';
-        // keep active chip in view on mobile
         var active = buttons[idx];
         if (active) active.scrollIntoView({ block: 'nearest', inline: 'center' });
       }
     }
 
-    // Scroll-spy
-    var navH = 78;
-    function onScroll() {
-      var pos = window.scrollY + navH + 40;
+    function update() {
+      // Scroll-spy via viewport-relative rects (container-agnostic)
       var current = sections[0];
       for (var i = 0; i < sections.length; i++) {
         var el = document.getElementById(sections[i]);
-        if (el && el.offsetTop <= pos) current = sections[i];
+        if (el && el.getBoundingClientRect().top <= navH + 42) current = sections[i];
       }
       setActive(current);
 
-      // progress
-      var h = document.documentElement;
-      var scrolled = (h.scrollTop || document.body.scrollTop);
-      var height = h.scrollHeight - h.clientHeight;
-      progressBar.style.width = (height > 0 ? (scrolled / height) * 100 : 0) + '%';
+      // Progress relative to the component's own height
+      var offset = scrolledPast();
+      var denom = root.offsetHeight - window.innerHeight;
+      var pct = denom > 0 ? (offset / denom) * 100 : 0;
+      if (pct < 0) pct = 0; if (pct > 100) pct = 100;
+      if (progressBar) progressBar.style.width = pct + '%';
 
-      updateToTop();
+      // Back-to-top visibility
+      if (toTop) toTop.classList.toggle('show', offset > 420);
     }
 
-    window.addEventListener('scroll', onScroll, { passive: true });
-    // Capture phase catches scroll events fired on nested scroll containers
-    // (common in WordPress themes/page builders), not just the window.
-    document.addEventListener('scroll', onScroll, { passive: true, capture: true });
-    window.addEventListener('resize', onScroll);
-    onScroll();
+    window.addEventListener('scroll', update, { passive: true });
+    // Capture phase also catches scrolling on nested containers (WordPress themes/builders)
+    document.addEventListener('scroll', update, { passive: true, capture: true });
+    window.addEventListener('resize', update);
+    update();
 
-    // Reveal on scroll
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!reduce && 'IntersectionObserver' in window) {
       var io = new IntersectionObserver(function (entries) {
@@ -670,9 +657,9 @@
           if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
         });
       }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-      document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+      root.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
     } else {
-      document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+      root.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
     }
   })();
 </script>
