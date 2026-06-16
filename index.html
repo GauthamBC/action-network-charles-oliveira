@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="oi-embed">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +8,38 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
 <style>
+  /* ── Iframe document shell ──────────────────────────────────────────
+     Targets the embedded document itself (the iframe's own page) through
+     the .oi-embed class on <html>, so the IFRAME's own scrollbar is
+     branded and the layout stays stable under zoom. Scoped to .oi-embed
+     so it can never affect a host page if pasted outside an iframe. */
+  html.oi-embed {
+    scrollbar-width: thin;                       /* Firefox */
+    scrollbar-color: #0c9b71 rgba(17, 24, 29, 0.06);
+    -webkit-text-size-adjust: 100%;              /* lock text scale */
+    text-size-adjust: 100%;
+  }
+  html.oi-embed body {
+    margin: 0;
+    overflow-x: hidden;                          /* no stray sideways scroll on zoom */
+    overflow-y: auto;
+  }
+  /* WebKit / Chrome / Safari / Edge — sleek branded vertical scrollbar */
+  html.oi-embed::-webkit-scrollbar { width: 11px; }
+  html.oi-embed::-webkit-scrollbar-track {
+    background: rgba(17, 24, 29, 0.05);
+  }
+  html.oi-embed::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #06674c, #0c9b71);
+    border-radius: 99px;
+    border: 3px solid transparent;               /* inset = slimmer, sleeker thumb */
+    background-clip: padding-box;
+  }
+  html.oi-embed::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #0c9b71, #06674c);
+    background-clip: padding-box;
+  }
+
   .oi, .oi *, .oi *::before, .oi *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   .oi {
@@ -23,7 +55,8 @@
     --page: #f4f5f2;
     --shadow: 0 1px 2px rgba(17,24,29,.04), 0 8px 24px rgba(17,24,29,.05);
     --shadow-lift: 0 2px 4px rgba(17,24,29,.05), 0 18px 40px rgba(17,24,29,.09);
-    --maxw: 100%;
+    --maxw: 100%;   /* zoom-out stability: cap this (e.g. 1200px) to keep the
+                       layout identical on very wide / zoomed-out viewports */
     --gutter: 40px;
 
     position: relative;
