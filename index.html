@@ -3,7 +3,7 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  .an-root {
+  .an-body {
     --green: #00a878;
     --green-dark: #007a58;
     --green-light: #e6f7f2;
@@ -20,56 +20,9 @@
     padding: 0 0 48px;
     width: 100%;
   }
+  .an-body * { box-sizing: border-box; }
 
-  .an-root * { box-sizing: border-box; }
-
-  .an-hero {
-    background: var(--ink);
-    padding: 40px 32px 32px;
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-  }
-  .an-hero::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: var(--green);
-  }
-  .an-hero-tag {
-    display: inline-block;
-    background: var(--green);
-    color: #fff;
-    font-family: Arial, sans-serif;
-    font-size: 10px;
-    font-weight: 900;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    padding: 5px 12px;
-    border-radius: 3px;
-    margin-bottom: 16px;
-  }
-  .an-hero h1 {
-    font-size: clamp(22px, 4vw, 38px);
-    line-height: 1.18;
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: -.02em;
-  }
-  .an-hero-byline {
-    margin-top: 18px;
-    font-family: Arial, sans-serif;
-    font-size: 13px;
-    color: rgba(255,255,255,0.5);
-    letter-spacing: .02em;
-  }
-
-  .an-wrap {
-    width: 100%;
-    margin: 0;
-    padding: 0 32px;
-  }
+  .an-wrap { width: 100%; margin: 0; padding: 0 32px; }
 
   .an-nav {
     position: sticky;
@@ -82,173 +35,87 @@
     width: 100%;
   }
   .an-nav-inner {
-    width: 100%;
-    margin: 0;
-    display: flex;
-    gap: 2px;
-    overflow-x: auto;
-    scrollbar-width: none;
+    width: 100%; margin: 0;
+    display: flex; gap: 2px;
+    overflow-x: auto; scrollbar-width: none;
     padding: 10px 0;
   }
   .an-nav-inner::-webkit-scrollbar { display: none; }
   .an-nav button {
     flex-shrink: 0;
     font-family: Arial, sans-serif;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: .04em;
-    text-transform: uppercase;
-    color: var(--muted);
-    background: transparent;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: color .15s, background .15s;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: .04em; text-transform: uppercase;
+    color: var(--muted); background: transparent; border: none;
+    padding: 6px 12px; border-radius: 4px; cursor: pointer;
+    white-space: nowrap; transition: color .15s, background .15s;
   }
-  .an-nav button:hover {
-    color: var(--green-dark);
-    background: var(--green-light);
-  }
+  .an-nav button:hover { color: var(--green-dark); background: var(--green-light); }
 
   .an-key-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    margin: 28px 0;
-    overflow: hidden;
-    width: 100%;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; margin: 28px 0; overflow: hidden; width: 100%;
   }
   .an-key-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 18px 28px;
-    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 10px;
+    padding: 18px 28px; border-bottom: 1px solid var(--border);
   }
-  .an-key-header-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--green);
-    flex-shrink: 0;
-  }
+  .an-key-header-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
   .an-key-header h3 {
-    font-family: Arial, sans-serif;
-    font-size: 11px;
-    font-weight: 900;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--green-dark);
+    font-family: Arial, sans-serif; font-size: 11px; font-weight: 900;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--green-dark);
   }
-  .an-key-list {
-    list-style: none;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .an-key-list { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); }
   .an-key-list li {
-    display: flex;
-    gap: 14px;
-    align-items: flex-start;
-    padding: 16px 28px;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    line-height: 1.5;
-    color: var(--sub);
-    border-bottom: 1px solid var(--border);
-    border-right: 1px solid var(--border);
+    display: flex; gap: 14px; align-items: flex-start;
+    padding: 16px 28px; font-family: Arial, sans-serif;
+    font-size: 14px; line-height: 1.5; color: var(--sub);
+    border-bottom: 1px solid var(--border); border-right: 1px solid var(--border);
   }
   .an-key-list li:nth-child(even) { border-right: none; }
-  .an-key-list li:nth-last-child(1),
-  .an-key-list li:nth-last-child(2) { border-bottom: none; }
+  .an-key-list li:nth-last-child(1), .an-key-list li:nth-last-child(2) { border-bottom: none; }
   .an-key-list li::before {
-    content: '';
-    flex-shrink: 0;
-    margin-top: 5px;
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--green);
+    content: ''; flex-shrink: 0; margin-top: 5px;
+    width: 6px; height: 6px; border-radius: 50%; background: var(--green);
   }
 
-  .an-section {
-    padding: 40px 0 0;
-    scroll-margin-top: 70px;
-    width: 100%;
-  }
+  .an-section { padding: 40px 0 0; scroll-margin-top: 70px; width: 100%; }
   .an-eyebrow {
-    font-family: Arial, sans-serif;
-    font-size: 10px;
-    font-weight: 900;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: var(--green);
-    margin-bottom: 8px;
+    font-family: Arial, sans-serif; font-size: 10px; font-weight: 900;
+    letter-spacing: .14em; text-transform: uppercase; color: var(--green); margin-bottom: 8px;
   }
   .an-section-title {
-    font-size: clamp(22px, 3vw, 30px);
-    font-weight: 700;
-    line-height: 1.2;
-    letter-spacing: -.025em;
-    color: var(--ink);
-    margin-bottom: 24px;
-    border-bottom: 2px solid var(--green);
-    padding-bottom: 16px;
+    font-size: clamp(22px, 3vw, 30px); font-weight: 700; line-height: 1.2;
+    letter-spacing: -.025em; color: var(--ink); margin-bottom: 24px;
+    border-bottom: 2px solid var(--green); padding-bottom: 16px;
   }
 
   .an-qa-list { display: grid; gap: 10px; width: 100%; }
-
   .an-qa {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-    scroll-margin-top: 70px;
-    width: 100%;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; overflow: hidden; scroll-margin-top: 70px; width: 100%;
   }
   .an-qa-q {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 18px 28px;
-    background: var(--green-light);
-    border-bottom: 1px solid var(--border);
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 18px 28px; background: var(--green-light); border-bottom: 1px solid var(--border);
   }
   .an-q-badge {
-    flex-shrink: 0;
-    background: var(--ink);
-    color: #fff;
-    font-family: Arial, sans-serif;
-    font-size: 10px;
-    font-weight: 900;
-    letter-spacing: .06em;
-    padding: 4px 9px;
-    border-radius: 3px;
-    margin-top: 1px;
+    flex-shrink: 0; background: var(--ink); color: #fff;
+    font-family: Arial, sans-serif; font-size: 10px; font-weight: 900;
+    letter-spacing: .06em; padding: 4px 9px; border-radius: 3px; margin-top: 1px;
   }
   .an-q-text {
-    font-family: Arial, sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--ink);
-    line-height: 1.4;
-    flex: 1;
+    font-family: Arial, sans-serif; font-size: 16px; font-weight: 700;
+    color: var(--ink); line-height: 1.4; flex: 1;
   }
-  .an-answer {
-    padding: 22px 28px 24px;
-  }
+  .an-answer { padding: 22px 28px 24px; }
   .an-answer p {
-    font-family: Georgia, 'Times New Roman', serif;
-    font-size: 16px;
-    line-height: 1.75;
-    color: var(--sub);
-    margin-bottom: 15px;
-    font-style: italic;
+    font-family: Georgia, 'Times New Roman', serif; font-size: 16px;
+    line-height: 1.75; color: var(--sub); margin-bottom: 15px; font-style: italic;
   }
   .an-answer p:last-child { margin-bottom: 0; }
 
   @media (max-width: 680px) {
-    .an-hero { padding: 28px 18px 24px; }
     .an-wrap, .an-nav { padding-left: 18px; padding-right: 18px; }
     .an-key-list { grid-template-columns: 1fr; }
     .an-key-list li { border-right: none; }
@@ -257,13 +124,7 @@
   }
 </style>
 
-<div class="an-root">
-  <div class="an-hero">
-    <span class="an-hero-tag">Exclusive Interview</span>
-    <h1>Charles Oliveira: 'I'm next in line' for Justin Gaethje, Gaethje had a 'bigger heart' than Ilia Topuria, Everyone knows it should have been me vs. Conor McGregor</h1>
-    <div class="an-hero-byline">Action Network &nbsp;·&nbsp; UFC Lightweight</div>
-  </div>
-
+<div class="an-body">
   <nav class="an-nav" aria-label="Interview topics">
     <div class="an-nav-inner">
       <button onclick="document.getElementById('key-findings').scrollIntoView({behavior:'smooth',block:'start'})">Key Findings</button>
